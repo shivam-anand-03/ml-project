@@ -1,0 +1,60 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: tribopredict-db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-tribo}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-tribo_secret}
+      POSTGRES_DB: ${POSTGRES_DB:-tribopredict}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-tribo} -d ${POSTGRES_DB:-tribopredict}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: tribopredict-backend
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-tribo}:${POSTGRES_PASSWORD:-tribo_secret}@db:5432/${POSTGRES_DB:-tribopredict}
+      STORAGE_DIR: /app/storage
+      BUNDLED_DATASET_DIR: /data/source/kolev_2023_pin_on_disk
+      API_KEY: ${API_KEY:-}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000,http://127.0.0.1:3000}
+      RANDOM_SEED: ${RANDOM_SEED:-42}
+      TRAINING_WORKERS: ${TRAINING_WORKERS:-1}
+      N_JOBS: ${N_JOBS:-2}
+      ENVIRONMENT: production
+    volumes:
+      - storage:/app/storage
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "${BACKEND_PORT:-8000}:8000"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8000}
+        NEXT_PUBLIC_API_KEY: ${API_KEY:-}
+    container_name: tribopredict-frontend
+    environment:
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8000}
+      NEXT_PUBLIC_API_KEY: ${API_KEY:-}
+    depends_on:
+      - backend
+    ports:
+      - "${FRONTEND_PORT:-3000}:3000"
+
+volumes:
+  pgdata:
+  storage:

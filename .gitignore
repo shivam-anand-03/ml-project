@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+backend/.venv/
+.pytest_cache/
+.mypy_cache/
+*.egg-info/
+# Node
+node_modules/
+frontend/.next/
+frontend/out/
+frontend/.turbo/
+# Env / secrets
+.env
+.env.local
+*.local
+# Runtime data
+storage/
+backend/storage/
+*.log
+# OS / IDE
+.DS_Store
+.idea/
+.vscode/

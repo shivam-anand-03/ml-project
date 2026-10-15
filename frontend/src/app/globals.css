@@ -1,0 +1,115 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #050a12;
+  --bg-elev: #0a1322;
+  --panel: #0c1627;
+  --panel-2: #101d33;
+  --border: #1b2e4b;
+  --border-strong: #27497a;
+  --text: #e8eef7;
+  --muted: #8aa0bd;
+  --muted-2: #5f7494;
+  --accent: #2f8cff;
+  --accent-2: #26c6f9;
+  --accent-soft: rgba(47, 140, 255, 0.14);
+  --ok: #2ad18d;
+  --warn: #f5b942;
+  --danger: #ff5c7a;
+  --measured: #26c6f9;
+  --predicted: #ff9f43;
+  --c1: #2f8cff;
+  --c2: #26c6f9;
+  --c3: #9b7dff;
+  --c4: #2ad18d;
+  --c5: #ff9f43;
+  --c6: #ff5c7a;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-panel: var(--panel);
+  --color-border: var(--border);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-ok: var(--ok);
+  --color-warn: var(--warn);
+  --color-danger: var(--danger);
+}
+
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+* { border-color: var(--border); }
+
+a { color: inherit; }
+
+.panel {
+  background: linear-gradient(180deg, var(--panel) 0%, var(--bg-elev) 100%);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 0 0 1px rgba(47, 140, 255, 0.04), 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.panel-glow { box-shadow: 0 0 0 1px rgba(47, 140, 255, 0.18), 0 0 40px rgba(47, 140, 255, 0.08); }
+
+.label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+
+.input {
+  width: 100%;
+  background: #08101c;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 9px 12px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.input:disabled { opacity: 0.55; cursor: not-allowed; }
+select.input option { background: #0b1526; }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 8px; justify-content: center;
+  padding: 9px 16px; border-radius: 10px; font-weight: 600; font-size: 14px;
+  border: 1px solid var(--border-strong); color: var(--text); background: var(--panel-2);
+  transition: all 0.15s ease; cursor: pointer; white-space: nowrap;
+}
+.btn:hover { border-color: var(--accent); background: #142644; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-primary { background: linear-gradient(180deg, #3b95ff, #1f6fe0); border-color: #3b95ff; color: #fff; box-shadow: 0 0 24px rgba(47, 140, 255, 0.25); }
+.btn-primary:hover { background: linear-gradient(180deg, #4ea2ff, #2a7cf0); }
+.btn-danger { border-color: var(--danger); color: var(--danger); }
+.btn-sm { padding: 6px 10px; font-size: 12px; border-radius: 8px; }
+
+.table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.table th { text-align: left; padding: 8px 10px; color: var(--muted); font-weight: 600; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; border-bottom: 1px solid var(--border); white-space: nowrap; position: sticky; top: 0; background: var(--panel); }
+.table td { padding: 8px 10px; border-bottom: 1px solid rgba(27, 46, 75, 0.6); white-space: nowrap; }
+.table tr:hover td { background: rgba(47, 140, 255, 0.05); }
+
+.badge { display: inline-flex; align-items: center; gap: 6px; padding: 2px 9px; border-radius: 999px; font-size: 11px; font-weight: 600; border: 1px solid; }
+
+.nav-link { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 10px; color: var(--muted); font-size: 14px; font-weight: 500; }
+.nav-link:hover { color: var(--text); background: rgba(47, 140, 255, 0.08); }
+.nav-link.active { color: #fff; background: var(--accent-soft); border: 1px solid rgba(47, 140, 255, 0.35); }
+
+.recharts-default-tooltip { background: #0b1526 !important; border: 1px solid var(--border-strong) !important; border-radius: 10px; color: var(--text) !important; }
+.recharts-tooltip-label { color: var(--muted) !important; }
+.recharts-cartesian-grid line { stroke: rgba(27, 46, 75, 0.7); }
+.recharts-text { fill: var(--muted); font-size: 11px; }
+.recharts-legend-item-text { color: var(--muted) !important; font-size: 12px; }
+
+input[type="range"] { accent-color: var(--accent); width: 100%; }
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: #1b2e4b; border-radius: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+.spinner { width: 18px; height: 18px; border: 2px solid var(--border-strong); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
